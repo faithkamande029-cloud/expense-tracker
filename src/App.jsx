@@ -6,22 +6,29 @@ import ExpenseTraker from "./components/expense-tracker"
 
 function App() {
   const [expenses, setExpenses] = useState([]);
+  const [search, setSearch] = useState('');
 
-  function addExpense(newExpense){
+  function addExpense(newExpense) {
     setExpenses([...expenses, newExpense])
   }
 
+  const filteredExpenses = expenses.filter((exp) => 
+    exp.expense.toLowerCase(). includes(search.toLowerCase()) ||
+    exp.description.toLowerCase(). includes(search.toLowerCase()) 
+
+  );
+
   return (
     <div>
-      <div className="w-100 p-4">
+      <div className="w-99 p-4">
         <Header/>
       </div>
       
       <div className="flex p-4 gap-4 ">
         <ExpenseForm addExpense={addExpense}/>
-        <div className="flex flex-col gap-2 items-start">
-          <Searchbar />
-          <ExpenseTraker expenses={expenses}/>
+        <div className="flex flex-col gap-3 items-start">
+          <Searchbar search={search} setSearch={setSearch}/>
+          <ExpenseTraker expenses={filteredExpenses}/>
         </div>
         
 
