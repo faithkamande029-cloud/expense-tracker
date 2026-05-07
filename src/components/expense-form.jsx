@@ -1,7 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
 
-export default function ExpenseForm() {
+export default function ExpenseForm({ addExpense }) {
+  const [error, setError] = useState('')
   const [item, setItem] = useState({
     expense: '',
     description: '', 
@@ -9,9 +10,20 @@ export default function ExpenseForm() {
     price: '', 
     date: '',
   });
-
+  
   function handleSubmit (event){
     event.preventDefault();
+
+    const newExpense = {
+      ...item, 
+      id: Date.now()
+    }
+    addExpense(newExpense);
+
+    if (item.expense.length < 5){
+      setError("Expense Item must have 5 or more characters");
+      return;
+    }
 
     setItem({
       expense: '',
@@ -20,12 +32,13 @@ export default function ExpenseForm() {
       price: '',
       date: '', 
     })
+    setError('')
 
   }  
   
 
   return (
-    <div className=' border p-3 flex flex-col gap-4 '>
+    <div className=' border p-3 flex flex-col gap-4 w-110'>
       <div className="flex flex-col gap-1">
         <h2 className="font-bold text-2xl ">Add Expense</h2>
         <p className="text-base text-gray-600">Enter Your expense details below</p>
@@ -33,6 +46,8 @@ export default function ExpenseForm() {
 
       <div className="border p-2">
         <form className='flex flex-col gap-3 p-2 ' onSubmit={handleSubmit}>
+          {error && <p className='text-red-600'>{error}</p>}
+
           <input 
             type="text"
             placeholder='Enter expense name' 
@@ -44,7 +59,7 @@ export default function ExpenseForm() {
                 expense: event.target.value
               })
               
-            }
+            }required
           />
           <input 
             type="text"
@@ -56,7 +71,7 @@ export default function ExpenseForm() {
                 ...item,
                 description: event.target.value
               })
-            }
+            }required
           />
           <input 
             type="text"
@@ -68,7 +83,7 @@ export default function ExpenseForm() {
                 ...item,
                 category: event.target.value
               })
-            }
+            }required
           />
           <input 
             type="number"
@@ -80,7 +95,7 @@ export default function ExpenseForm() {
                 ...item,
                 price: event.target.value
               })
-            }
+            }required
           />
           <input 
             type="date"
@@ -92,7 +107,7 @@ export default function ExpenseForm() {
                 ...item,
                 date: event.target.value
               })
-            }
+            }required
 
           />
           <button 

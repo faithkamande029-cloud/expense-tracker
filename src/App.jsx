@@ -5,7 +5,11 @@ import ExpenseForm from "./components/expense-form"
 import ExpenseTraker from "./components/expense-tracker"
 
 function App() {
-  const [expenses, setExpense] = useState([])
+  const [expenses, setExpenses] = useState([]);
+
+  function addExpense(newExpense){
+    setExpenses([...expenses, newExpense])
+  }
 
   return (
     <div>
@@ -13,9 +17,9 @@ function App() {
         <Header/>
       </div>
       
-      <div className="grid grid-cols-3 p-4 gap-4 ">
-        <ExpenseForm/>
-        <div className="col-span-2">
+      <div className="flex p-4 gap-4 ">
+        <ExpenseForm addExpense={addExpense}/>
+        <div className="flex flex-col gap-2 items-start">
           <Searchbar />
           <ExpenseTraker expenses={expenses}/>
         </div>

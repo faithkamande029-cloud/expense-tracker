@@ -6,7 +6,7 @@ export default function Searchbar() {
         <input 
             type="text" 
             placeholder='Search expense'
-            className='border px-3 '
+            className='border px-3 py-1 w-75 rounded-2xl'
         />
     </div>
   )
